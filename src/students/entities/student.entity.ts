@@ -1,4 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'students' })
 export class Student {
@@ -8,6 +13,8 @@ export class Student {
   firstname: string;
   @Column()
   lastname: string;
+  @UpdateDateColumn()
+  updatedAt: Date;
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 }
