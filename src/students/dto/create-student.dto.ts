@@ -1,1 +1,4 @@
-export class CreateStudentDto {}
+export class CreateStudentDto {
+  fistname: string;
+  lastname: string;
+}
