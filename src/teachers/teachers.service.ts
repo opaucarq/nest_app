@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { CreateTeacherDto } from './dto/create-teacher.dto';
-import { UpdateTeacherDto } from './dto/update-teacher.dto';
+// import { UpdateTeacherDto } from './dto/update-teacher.dto';
+import { Teacher } from './entities/teacher.entity';
 
 @Injectable()
 export class TeachersService {
-  create(createTeacherDto: CreateTeacherDto) {
-    return 'This action adds a new teacher';
+  constructor(
+    @InjectRepository(Teacher)
+    private teachersRepository: Repository<Teacher>,
+  ) {}
+  async create(createTeacherDto: CreateTeacherDto) {
+    const newTeacher = this.teachersRepository.create(createTeacherDto);
+    return this.teachersRepository.save(newTeacher);
   }
 
   findAll() {
-    return `This action returns all teachers`;
+    return this.teachersRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} teacher`;
+    return this.teachersRepository.findOne({
+      where: { id },
+      relations: ['subjects'],
+    });
   }
 
-  update(id: number, updateTeacherDto: UpdateTeacherDto) {
-    return `This action updates a #${id} teacher`;
-  }
+  // update(id: number, updateTeacherDto: UpdateTeacherDto) {
+  //   return `This action updates a #${id} teacher`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} teacher`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} teacher`;
+  // }
 }
