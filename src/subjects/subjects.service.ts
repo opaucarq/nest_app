@@ -1,10 +1,10 @@
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
+import { Subject } from './entities/subject.entity';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 // import { UpdateSubjectDto } from './dto/update-subject.dto';
-import { Subject } from './entities/subject.entity';
 import { TeachersService } from 'src/teachers/teachers.service';
 
 @Injectable()
