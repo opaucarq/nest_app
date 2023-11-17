@@ -2,19 +2,23 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
+  OneToMany,
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
 
 import { Subject } from 'src/subjects/entities/subject.entity';
+import { Student } from 'src/students/entities/student.entity';
 
 @Entity()
 export class Enrollment {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ unique: true })
   semester: string;
-  @ManyToOne(() => Subject, (subject) => subject.enrollments)
-  @JoinColumn({ name: 'subjectId' })
-  subject: Subject;
+  @OneToMany(() => Subject, (subject) => subject.enrollment)
+  subjects: Subject[];
+  @ManyToOne(() => Student, (student) => student.enrollments)
+  @JoinColumn({ name: 'studentId' })
+  student: Student;
 }
