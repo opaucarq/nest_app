@@ -27,8 +27,13 @@ export class StudentsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.studentsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.studentsService.findOne(id);
+  }
+
+  @Get(':id/enrollments')
+  findEnrollments(@Param('id', ParseIntPipe) id: number) {
+    return this.studentsService.findEnrollments(id);
   }
 
   @Patch(':id')
