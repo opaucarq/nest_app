@@ -14,11 +14,12 @@ import { Enrollment } from 'src/enrollments/entities/enrollment.entity';
 export class Subject {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ unique: true })
   name: string;
   @ManyToOne(() => Teacher, (teacher) => teacher.subjects)
   @JoinColumn({ name: 'teacherId' })
   teacher: Teacher;
-  @OneToMany(() => Enrollment, (enrollment) => enrollment.subject)
-  enrollments: Enrollment[];
+  @ManyToOne(() => Enrollment, (enrollment) => enrollment.subjects)
+  @JoinColumn({ name: 'enrollmentId' })
+  enrollment: Enrollment;
 }
