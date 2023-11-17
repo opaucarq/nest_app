@@ -38,6 +38,14 @@ export class StudentsService {
     return await this.findStudentById(id);
   }
 
+  async findEnrollments(id: number) {
+    return this.studentsRepository.findOne({
+      where: { id },
+      select: ['id', 'firstname', 'lastname'],
+      relations: ['enrollments'],
+    });
+  }
+
   async update(id: number, updateStudentDto: UpdateStudentDto) {
     const foundStudent = await this.findStudentById(id);
     this.studentsRepository.merge(foundStudent, updateStudentDto);
