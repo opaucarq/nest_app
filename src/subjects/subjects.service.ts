@@ -21,7 +21,9 @@ export class SubjectsService {
       ...subjectData,
       teacher: teacher,
     });
-    return this.subjectsRepository.save(newSubject);
+    //reescribir
+    const savedSubject = await this.subjectsRepository.save(newSubject);
+    return savedSubject;
   }
 
   findAll() {
@@ -33,6 +35,9 @@ export class SubjectsService {
       where: { id },
       relations: ['teacher'],
     });
+  }
+  findMany(ids: number[]) {
+    return this.subjectsRepository.findByIds(ids);
   }
 
   // update(id: number, updateSubjectDto: UpdateSubjectDto) {
