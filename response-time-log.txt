@@ -1,0 +1,4 @@
+2023-11-18T03:49:38.353Z - Tiempo de respuesta: 5 ms
+2023-11-18T03:49:38.439Z - Tiempo de respuesta: 2 ms
+2023-11-18T03:52:44.080Z - Ruta: / - Tiempo de respuesta: 5 ms
+2023-11-18T03:53:02.010Z - Ruta: /api/v1/students - Tiempo de respuesta: 14 ms
