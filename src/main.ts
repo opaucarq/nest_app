@@ -2,12 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import * as fs from 'fs';
+import { HttpExceptionFilter } from 'http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api/v1');
   app.useLogger(new Logger());
   app.useGlobalPipes(new ValidationPipe());
+  if (process.env.LOG_ERRORS === 'true') {
+    app.useGlobalFilters(new HttpExceptionFilter());
+    console.log('here');
+  }
   app.enableCors();
 
   const logFilePath = process.env.LOG_FILE_PATH || 'response-time-log.txt';
@@ -17,8 +22,9 @@ async function bootstrap() {
     res.on('finish', () => {
       const end = Date.now();
       const elapsedTime = end - start;
-      console.log(`Tiempo de respuesta: ${elapsedTime} ms`);
-      const logMessage = `${new Date().toISOString()} - Ruta: ${req.url} - Tiempo de respuesta: ${elapsedTime} ms\n`;
+      const logMessage = `${new Date().toISOString()} - Ruta: ${
+        req.url
+      } - Response Time: ${elapsedTime} ms\n`;
       fs.appendFile(logFilePath, logMessage, (err) => {
         if (err) {
           console.error('Error al escribir en el archivo de registro:', err);

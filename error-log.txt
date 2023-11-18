@@ -1,0 +1,2 @@
+2023-11-18T23:48:12.652Z - Ruta: /api/v1/students/2 - Status Code: 404
+2023-11-18T23:50:34.843Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
