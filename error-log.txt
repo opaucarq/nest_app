@@ -1,2 +1,13 @@
 2023-11-18T23:48:12.652Z - Ruta: /api/v1/students/2 - Status Code: 404
 2023-11-18T23:50:34.843Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-18T23:58:30.454Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-18T23:58:44.368Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-18T23:58:58.247Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-19T00:08:05.217Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-19T00:08:11.121Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-19T00:08:12.129Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-19T00:08:48.592Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-19T00:08:49.496Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-19T00:11:36.070Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-19T00:11:36.649Z - Ruta: /api/v1/students/2 - Status Code: 404 - Error: "User not found"
+2023-11-19T00:11:41.200Z - Ruta: /api/v1/studentss - Status Code: 404 - Error: {"message":"Cannot GET /api/v1/studentss","error":"Not Found","statusCode":404}

@@ -2,3 +2,31 @@
 2023-11-18T03:49:38.439Z - Tiempo de respuesta: 2 ms
 2023-11-18T03:52:44.080Z - Ruta: / - Tiempo de respuesta: 5 ms
 2023-11-18T03:53:02.010Z - Ruta: /api/v1/students - Tiempo de respuesta: 14 ms
+2023-11-18T23:31:24.981Z - Ruta: / - Tiempo de respuesta: 4 ms
+2023-11-18T23:31:25.053Z - Ruta: /favicon.ico - Tiempo de respuesta: 1 ms
+2023-11-18T23:31:36.158Z - Ruta: /api/v1/students - Tiempo de respuesta: 15 ms
+2023-11-18T23:31:43.847Z - Ruta: /api/v1/students - Tiempo de respuesta: 70 ms
+2023-11-18T23:32:05.319Z - Ruta: /api/v1/students/2 - Tiempo de respuesta: 2 ms
+2023-11-18T23:33:21.534Z - Ruta: /api/v1/students/2 - Tiempo de respuesta: 2 ms
+2023-11-18T23:34:06.823Z - Ruta: /api/v1/students/2 - Tiempo de respuesta: 10 ms
+2023-11-18T23:34:18.855Z - Ruta: /api/v1/students/2 - Tiempo de respuesta: 9 ms
+2023-11-18T23:41:41.979Z - Ruta: /api/v1/students/2 - Tiempo de respuesta: 10 ms
+2023-11-18T23:42:53.514Z - Ruta: /api/v1/students/2 - Tiempo de respuesta: 11 ms
+2023-11-18T23:43:44.171Z - Ruta: /api/v1/students/2 - Tiempo de respuesta: 11 ms
+2023-11-18T23:48:12.655Z - Ruta: /api/v1/students/2 - Response Time: 10 ms
+2023-11-18T23:50:34.846Z - Ruta: /api/v1/students/2 - Response Time: 9 ms
+2023-11-18T23:58:30.457Z - Ruta: /api/v1/students/2 - Response Time: 10 ms
+2023-11-18T23:58:44.369Z - Ruta: /api/v1/students/2 - Response Time: 2 ms
+2023-11-18T23:58:53.032Z - Ruta: /api/v1/students/1 - Response Time: 3 ms
+2023-11-18T23:58:58.247Z - Ruta: /api/v1/students/2 - Response Time: 2 ms
+2023-11-19T00:10:03.747Z - Ruta: /api/v1/students/1 - Response Time: 11 ms
+2023-11-19T00:10:04.866Z - Ruta: /api/v1/students/1 - Response Time: 2 ms
+2023-11-19T00:10:35.776Z - Ruta: /api/v1/students/1 - Response Time: 2 ms
+2023-11-19T00:10:36.734Z - Ruta: /api/v1/students/1 - Response Time: 2 ms
+2023-11-19T00:11:18.063Z - Ruta: /api/v1/students/1 - Response Time: 10 ms
+2023-11-19T00:11:19.455Z - Ruta: /api/v1/students/1 - Response Time: 2 ms
+2023-11-19T00:11:36.070Z - Ruta: /api/v1/students/2 - Response Time: 2 ms
+2023-11-19T00:11:36.649Z - Ruta: /api/v1/students/2 - Response Time: 2 ms
+2023-11-19T00:11:41.201Z - Ruta: /api/v1/studentss - Response Time: 1 ms
+2023-11-19T00:12:35.859Z - Ruta: /api/v1/studentss - Response Time: 4 ms
+2023-11-19T00:12:36.986Z - Ruta: /api/v1/studentss - Response Time: 1 ms
