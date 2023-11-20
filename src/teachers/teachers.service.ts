@@ -1,9 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateTeacherDto } from './dto/create-teacher.dto';
-// import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { Teacher } from './entities/teacher.entity';
 
 @Injectable()
@@ -12,9 +11,27 @@ export class TeachersService {
     @InjectRepository(Teacher)
     private teachersRepository: Repository<Teacher>,
   ) {}
+
   async create(createTeacherDto: CreateTeacherDto) {
-    const newTeacher = this.teachersRepository.create(createTeacherDto);
-    return this.teachersRepository.save(newTeacher);
+    try {
+      const { fullname } = createTeacherDto;
+      if (fullname === undefined) {
+        throw new HttpException('Fill fullname input', HttpStatus.BAD_REQUEST);
+      }
+      if (!fullname || fullname.trim().length === 0) {
+        throw new HttpException(
+          'Fullname should not be empty',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      const newTeacher = this.teachersRepository.create(createTeacherDto);
+      return this.teachersRepository.save(newTeacher);
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   findAll() {
@@ -27,12 +44,4 @@ export class TeachersService {
       relations: ['subjects'],
     });
   }
-
-  // update(id: number, updateTeacherDto: UpdateTeacherDto) {
-  //   return `This action updates a #${id} teacher`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} teacher`;
-  // }
 }
