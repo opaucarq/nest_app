@@ -3,40 +3,46 @@ import {
   Get,
   Post,
   Body,
-  // Patch,
   Param,
-  // Delete,
+  Inject,
+  ParseIntPipe,
 } from '@nestjs/common';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+
 import { TeachersService } from './teachers.service';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
-// import { UpdateTeacherDto } from './dto/update-teacher.dto';
 
 @Controller('teachers')
 export class TeachersController {
-  constructor(private readonly teachersService: TeachersService) {}
+  constructor(
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly teachersService: TeachersService,
+  ) {}
 
   @Post()
-  create(@Body() createTeacherDto: CreateTeacherDto) {
-    return this.teachersService.create(createTeacherDto);
+  async create(@Body() createTeacherDto: CreateTeacherDto) {
+    const createdTeacher = await this.teachersService.create(createTeacherDto);
+    await this.cacheManager.del('teachers_all');
+    return createdTeacher;
   }
 
   @Get()
-  findAll() {
-    return this.teachersService.findAll();
+  async findAll() {
+    const cachedData = await this.cacheManager.get('teachers_all');
+    if (cachedData) return cachedData;
+
+    const teachers = await this.teachersService.findAll();
+    await this.cacheManager.set('teachers_all', teachers);
+    return teachers;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.teachersService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const cachedData = await this.cacheManager.get(`teacher_${id}`);
+    if (cachedData) return cachedData;
+    const teacher = await this.teachersService.findOne(id);
+    await this.cacheManager.set(`teacher_${id}`, teacher);
+    return teacher;
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateTeacherDto: UpdateTeacherDto) {
-  //   return this.teachersService.update(+id, updateTeacherDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.teachersService.remove(+id);
-  // }
 }
