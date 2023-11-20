@@ -21,6 +21,9 @@ export class Student {
   updatedAt: Date;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
-  @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.student, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   enrollments: Enrollment[];
 }
