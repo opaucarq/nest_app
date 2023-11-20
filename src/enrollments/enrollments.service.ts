@@ -17,16 +17,6 @@ export class EnrollmentsService {
     private studentsService: StudentsService,
   ) {}
   async create(createEnrollmentDto: CreateEnrollmentDto) {
-    // funciona para cursos y matricula
-    // const { subjectId, semester } = createEnrollmentDto;
-    // const subject = await this.subjectsServices.findOne(subjectId);
-    // console.log(subject);
-    // const newEnrollment = this.enrollmentsRepository.create({
-    //   semester,
-    //   subjects: [subject],
-    // });
-    // return this.enrollmentsRepository.save(newEnrollment);
-
     const { subjectsId, semester, studentId } = createEnrollmentDto;
     const subjects = await this.subjectsService.findMany(subjectsId);
 
@@ -37,29 +27,31 @@ export class EnrollmentsService {
       student,
     });
     return this.enrollmentsRepository.save(newEnrollment);
-
-    // const { subjectId, ...enrollmentData } = createEnrollmentDto;
-    // const subject = await this.subjectsServices.findOne(subjectId);
-    // // this.subjectsServices.findOne
-    // // console.log(subjectId, subject);
-    // const newEnrollment = this.enrollmentsRepository.create({
-    //   ...enrollmentData,
-    //   subject: subject,
-    // });
-    // return this.enrollmentsRepository.save(newEnrollment);
   }
 
   findAll() {
-    return this.enrollmentsRepository.find({ relations: ['student'] });
+    return this.enrollmentsRepository.find({ relations: ['student', 'subjects'] });
   }
 
   findOne(id: number) {
     return this.enrollmentsRepository.findOne({
       where: { id },
-      relations: ['student'],
+      relations: ['student', 'subjects'],
     });
   }
-
+  private convertSemester(number) {
+    const yearPart = String(number).slice(0, 4);
+    const monthPart = String(number).slice(-1);
+    return `${yearPart}-${monthPart}`;
+  }
+  async findEnrollmentSubjects(id: number, semester: number) {
+    const student = await this.studentsService.findOne(id);
+    const enrollment = await this.enrollmentsRepository.findOne({
+      relations: { subjects: true },
+      where: { semester: this.convertSemester(semester), student: { id } },
+    });
+    return { student, enrolled_courses: enrollment.subjects };
+  }
   update(id: number, updateEnrollmentDto: UpdateEnrollmentDto) {
     return `This action updates a #${id} enrollment`;
   }
