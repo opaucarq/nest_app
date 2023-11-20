@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TerminusModule } from '@nestjs/terminus';
 
@@ -12,33 +12,24 @@ import { SubjectsModule } from './subjects/subjects.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { EnrollmentsModule } from './enrollments/enrollments.module';
 import { HealthController } from './health/health.controller';
+import { AppConfig, DatabaseConfig } from './config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      cache: true,
+      load: [AppConfig, DatabaseConfig],
     }),
     CacheModule.register({
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.POSTGRES_HOST,
-      port: parseInt(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USERNAME,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DATABASE,
-      autoLoadEntities: true,
-      synchronize: true,
-      ssl: process.env.POSTGRES_SSL === 'true',
-      extra: {
-        ssl:
-          process.env.POSTGRES_SSL === 'true'
-            ? {
-                rejectUnauthorized: false,
-              }
-            : null,
-      },
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        ...configService.get('database'),
+      }),
+      inject: [ConfigService],
     }),
     StudentsModule,
     SubjectsModule,
