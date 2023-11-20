@@ -10,9 +10,9 @@ export function configureMiddlewares(app: INestApplication) {
       res.on('finish', () => {
         const end = Date.now();
         const elapsedTime = end - start;
-        const logMessage = `${new Date().toISOString()} - Ruta: ${
-          req.url
-        } - Response Time: ${elapsedTime} ms\n`;
+        const logMessage = `${new Date().toISOString()} - Method: ${
+          req.method
+        } - Path: ${req.url} - Response Time: ${elapsedTime} ms\n`;
         fs.appendFile(logFilePath, logMessage, (err) => {
           if (err) {
             console.error('Error al escribir en el archivo de registro:', err);
