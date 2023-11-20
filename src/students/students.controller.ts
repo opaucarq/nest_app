@@ -25,7 +25,7 @@ export class StudentsController {
   @Post()
   async create(@Body() createStudentDto: CreateStudentDto) {
     const createdStudent = await this.studentsService.create(createStudentDto);
-    // await this.cacheManager.set(`student_${createdStudent.id}`, createdStudent);
+    await this.cacheManager.del('students_all');
     return createdStudent;
   }
 
@@ -61,7 +61,7 @@ export class StudentsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.studentsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.studentsService.remove(id);
   }
 }
