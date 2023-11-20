@@ -50,6 +50,8 @@ $ npm run start:prod
 La API REST desarrollada hace validación de los datos, permite loguear los tiempos de respuesta y errores.
 Incluye el uso de caché y uso de migraciones para la base de datos
 
+En la rama `deploy` se hizo un DEPLOY de prueba con una versión prematura de la API usando postgres y Render. Puedes encontrar la aplicación [aquí](https://nest-postgres-5350.onrender.com/api/v1/students).
+
 ## `/api/v1/students`
 
 #### `GET /api/v1/students`
