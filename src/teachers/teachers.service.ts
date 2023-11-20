@@ -11,7 +11,15 @@ export class TeachersService {
     @InjectRepository(Teacher)
     private teachersRepository: Repository<Teacher>,
   ) {}
-
+  async findTeacherById(id: number): Promise<Teacher> {
+    const existingTeacher = await this.teachersRepository.findOne({
+      where: { id },
+    });
+    if (!existingTeacher) {
+      throw new HttpException('Teacher not found', HttpStatus.NOT_FOUND);
+    }
+    return existingTeacher;
+  }
   async create(createTeacherDto: CreateTeacherDto) {
     try {
       const { fullname } = createTeacherDto;
