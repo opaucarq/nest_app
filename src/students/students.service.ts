@@ -22,15 +22,32 @@ export class StudentsService {
     }
     return foundStudent;
   }
+  private async findStudentByEmail(email: string): Promise<Student> {
+    const foundStudent = await this.studentsRepository.findOne({
+      where: { email },
+    });
+    return foundStudent;
+  }
 
-  create(createStudentDto: CreateStudentDto) {
+  async create(createStudentDto: CreateStudentDto) {
+    const { firstname, lastname, email } = createStudentDto;
+    if (!firstname || !lastname) {
+      throw new HttpException('Invalid input data', HttpStatus.BAD_REQUEST);
+    }
+    const existingStudent = await this.findStudentByEmail(email);
+    if (existingStudent) {
+      throw new HttpException(
+        'Student with the same email already exists',
+        HttpStatus.CONFLICT,
+      );
+    }
     const newStudent = this.studentsRepository.create(createStudentDto);
     return this.studentsRepository.save(newStudent);
   }
 
   findAll() {
     return this.studentsRepository.find({
-      select: ['id', 'firstname', 'lastname'],
+      select: ['id', 'firstname', 'lastname', 'email'],
     });
   }
 
