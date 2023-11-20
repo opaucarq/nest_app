@@ -18,7 +18,7 @@ export class StudentsService {
       where: { id },
     });
     if (!foundStudent) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Student not found', HttpStatus.NOT_FOUND);
     }
     return foundStudent;
   }
@@ -65,8 +65,25 @@ export class StudentsService {
 
   async update(id: number, updateStudentDto: UpdateStudentDto) {
     const foundStudent = await this.findStudentById(id);
-    this.studentsRepository.merge(foundStudent, updateStudentDto);
-    return this.studentsRepository.save(foundStudent);
+    console.log(foundStudent.email, updateStudentDto.email);
+    if (
+      updateStudentDto.email &&
+      foundStudent.email !== updateStudentDto.email
+    ) {
+      const existingStudent = await this.studentsRepository.findOne({
+        where: { email: updateStudentDto.email },
+      });
+      if (existingStudent) {
+        throw new HttpException(
+          'Email address already registered for another student',
+          HttpStatus.CONFLICT,
+        );
+      }
+    }
+    await this.studentsRepository.update(id, updateStudentDto);
+    const updatedStudent = await this.findStudentById(id);
+
+    return updatedStudent;
   }
 
   async remove(id: number) {
