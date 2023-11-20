@@ -14,7 +14,7 @@ import { Student } from 'src/students/entities/student.entity';
 export class Enrollment {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column({ unique: true })
+  @Column()
   semester: string;
   @OneToMany(() => Subject, (subject) => subject.enrollment)
   subjects: Subject[];

@@ -1,7 +1,6 @@
 import { Subject } from 'src/subjects/entities/subject.entity';
 
 export class CreateEnrollmentDto {
-  subjectId?: number;
   semester: string;
   studentId: number;
   subjectsId?: number[];
