@@ -15,6 +15,8 @@ export class Student {
   firstname: string;
   @Column()
   lastname: string;
+  @Column({ unique: true })
+  email: string;
   @UpdateDateColumn()
   updatedAt: Date;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
