@@ -45,29 +45,108 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## API
 
-```bash
-# unit tests
-$ npm run test
+La API REST desarrollada hace validación de los datos, permite loguear los tiempos de respuesta y errores.
+Incluye el uso de caché y uso de migraciones para la base de datos
 
-# e2e tests
-$ npm run test:e2e
+## `/api/v1/students`
 
-# test coverage
-$ npm run test:cov
+#### `GET /api/v1/students`
+
+Obtiene todos los estudiantes.
+
+#### `GET /api/v1/students/:id`
+
+Obtiene un estudiante por ID.
+
+#### `POST /api/v1/students`
+
+Crea un nuevo estudiante.
+
+#### `PATCH /api/v1/students`
+
+Actualiza la información del estudiante
+
+**Ejemplo de cuerpo de solicitud:**
+
+```json
+{
+  "firstname": "Andrea",
+  "lastname": "Paucar",
+  "email": "apa@mail.com"
+}
 ```
 
-## Support
+## `/api/v1/teacher`
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### `GET /api/v1/teacher`
 
-## Stay in touch
+Obtiene todos los docentes.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+#### `GET /api/v1/teacher/:id`
 
-## License
+Obtiene la información del docente y sus cursos
 
-Nest is [MIT licensed](LICENSE).
+#### `POST /api/v1/teacher`
+
+Crea un nuevo docente.
+
+**Ejemplo de cuerpo de solicitud:**
+
+```json
+{
+  "fullname": "Flores"
+}
+```
+
+## `/api/v1/subjects`
+
+#### `GET /api/v1/subjects`
+
+Obtiene todos los cursos.
+
+#### `GET /api/v1/subjects/:id`
+
+Obtiene la información del curso y quien lo dicta
+
+#### `POST /api/v1/subjects`
+
+Crea un nuevo curso.
+
+#### `PATCH /api/v1/subjects`
+
+Actualiza la información del docente
+
+**Ejemplo de cuerpo de solicitud:**
+
+```json
+{
+  "name": "DIP",
+  "teacherId": "1"
+}
+```
+
+## `/api/v1/enrollments`
+
+#### `GET /api/v1/enrollments`
+
+Obtiene todas las matrículas
+
+#### `GET /api/v1/enrollments/:semester/:id` (/api/v1/enrollments/20232/2)
+
+Obtiene la información de los cursos en el semestre del estudiante
+
+#### `POST /api/v1/subjects`
+
+Crea una nueva matrícula:
+
+**Ejemplo de cuerpo de solicitud:**
+
+```json
+{
+  "semester": "2023-1",
+  "studentId": 1,
+  "subjectsId": [1, 2, 3]
+}
+```

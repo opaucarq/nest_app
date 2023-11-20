@@ -1,4 +1,5 @@
 export class CreateStudentDto {
-  fistname: string;
+  firstname: string;
   lastname: string;
+  email: string;
 }
