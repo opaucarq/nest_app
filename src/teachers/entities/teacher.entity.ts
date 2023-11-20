@@ -6,8 +6,8 @@ import { Subject } from 'src/subjects/entities/subject.entity';
 export class Teacher {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
-  name: string;
+  @Column({ unique: true })
+  fullname: string;
   @OneToMany(() => Subject, (subject) => subject.teacher)
   subjects: Subject[];
 }

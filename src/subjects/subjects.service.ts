@@ -1,10 +1,10 @@
 import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 
 import { Subject } from './entities/subject.entity';
 import { CreateSubjectDto } from './dto/create-subject.dto';
-// import { UpdateSubjectDto } from './dto/update-subject.dto';
+import { UpdateSubjectDto } from './dto/update-subject.dto';
 import { TeachersService } from 'src/teachers/teachers.service';
 
 @Injectable()
@@ -14,16 +14,20 @@ export class SubjectsService {
     private subjectsRepository: Repository<Subject>,
     private teachersService: TeachersService,
   ) {}
+
   async create(createSubjectDto: CreateSubjectDto) {
     const { teacherId, ...subjectData } = createSubjectDto;
-    const teacher = await this.teachersService.findOne(teacherId);
+    const teacher = await this.teachersService.findTeacherById(teacherId);
     const newSubject = this.subjectsRepository.create({
       ...subjectData,
-      teacher: teacher,
+      teacher,
     });
-    //reescribir
     const savedSubject = await this.subjectsRepository.save(newSubject);
-    return savedSubject;
+    const simplifiedSubject = {
+      id: savedSubject.id,
+      name: savedSubject.name,
+    };
+    return simplifiedSubject;
   }
 
   findAll() {
@@ -31,20 +35,32 @@ export class SubjectsService {
   }
 
   findOne(id: number) {
-    return this.subjectsRepository.findOne({
-      where: { id },
-      relations: ['teacher'],
-    });
+    return this.findSubjectById(id);
   }
   findMany(ids: number[]) {
     return this.subjectsRepository.findByIds(ids);
   }
 
-  // update(id: number, updateSubjectDto: UpdateSubjectDto) {
-  //   return `This action updates a #${id} subject`;
-  // }
+  async update(id: number, updateSubjectDto: UpdateSubjectDto) {
+    const { teacherId } = updateSubjectDto;
+    if (teacherId === undefined) {
+      throw new HttpException('Fill teacherId input', HttpStatus.BAD_REQUEST);
+    }
+    const teacher = await this.teachersService.findTeacherById(teacherId);
+    await this.findOne(id);
+    await this.subjectsRepository.update(id, { teacher });
+    const updatedSubject = await this.findOne(id);
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} subject`;
-  // }
+    return updatedSubject;
+  }
+  private async findSubjectById(id: number): Promise<Subject> {
+    const foundSubject = await this.subjectsRepository.findOne({
+      where: { id },
+      relations: ['teacher'],
+    });
+    if (!foundSubject) {
+      throw new HttpException('Subject not found', HttpStatus.NOT_FOUND);
+    }
+    return foundSubject;
+  }
 }
