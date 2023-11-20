@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TerminusModule } from '@nestjs/terminus';
 
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
+import { TypeOrmHealthIndicator } from '@nestjs/terminus';
 import { StudentsModule } from './students/students.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { EnrollmentsModule } from './enrollments/enrollments.module';
-import { ConfigModule } from '@nestjs/config';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
@@ -37,8 +40,9 @@ import { ConfigModule } from '@nestjs/config';
     SubjectsModule,
     TeachersModule,
     EnrollmentsModule,
+    TerminusModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, HealthController],
+  providers: [AppService, TypeOrmHealthIndicator],
 })
 export class AppModule {}
